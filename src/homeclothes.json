@@ -1,0 +1,81 @@
+[
+    {
+        "img" : "https://source.unsplash.com/1600x900/?ground",
+        "name" : "On The Ground",
+        "price" : 500,
+        "brand" : "H&M",
+        "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+        "tag":"premium",
+        "hash": ["pant", "brown", "on","the", "ground", "hnm", "h&m", "500","premium"]
+    },
+    {
+        "img" : "https://source.unsplash.com/1600x900/?summer",
+        "name" : "Summer Side",
+        "price" : 600,
+        "brand" : "Nike",
+        "tag":"premium",
+        "hash": ["shirt", "yellow", "summer","side", "600", "nike", "cloth", "t-shirt","premium"]
+    },
+    {
+        "img" : "https://source.unsplash.com/1600x900/?winter",
+        "name": "Winter Snow",
+        "price": 399,
+        "brand": "Adidas"
+        ,"tag":"limited",
+        "hash": ["winter", "snow", "t","tee", "t shirt", "white", "399", "adidas", "limited"]
+    },
+    {
+        "img" : "https://source.unsplash.com/1600x900/?maple",
+        "name" : "Maple",
+        "price" : 500,
+        "brand" : "H&M",
+        "tag":"limited",
+        "hash":["maple","500", "pant","shorts","hnm", "h&m","limited","red"]
+    },
+    {
+        "img" : "https://source.unsplash.com/1600x900/?gray,shirt",
+        "name" : "Gray Vibe",
+        "price" : 600,
+        "brand" : "Nike",
+        "tag":"limited",
+        "hash":["gray", "vibes" , "600","nike" , "limited", "limited" , "trouser" , "gray" , "grey", "clothes"]
+    },
+    {
+        "img" : "https://source.unsplash.com/1600x900/?desert",
+        "name" : "Fresh Desert",
+        "price" : 500,
+        "brand" : "H&M",
+        "tag":"premium",
+        "hash": ["fresh", "desert", "500","hnm", "h&m", "premium", "yellow", "colour"]
+    },
+    {
+        "img" : "https://source.unsplash.com/1600x900/?comfy",
+        "name" : "Comfy Home",
+        "price" : 600,
+        "brand" : "Nike",
+        "tag":"premium",
+        "hash": ["comfy" , "home" , "nike", "600", "premium" , "sweatshirt", "swaetpant" , "comfortable"]
+    },
+    {
+        "img" : "https://source.unsplash.com/1600x900/?farm",
+        "name": "Farmside Classic",
+        "price": 399,
+        "brand": "Adidas",
+        "tag":"limited",
+        "hash": ["farmside" , "classic" , "399" , "adidas" , "limited" , "t-shirt" , "t shirt" ]
+    },
+    {
+        "img" : "https://source.unsplash.com/1600x900/?water,weather",
+        "name" : "Water Weather",
+        "price" : 500,
+        "brand" : "H&M",
+        "tag":"premium"
+    },
+    {
+        "img" : "https://source.unsplash.com/1600x900/?sloppy",
+        "name" : "Sloppy Tee",
+        "price" : 600,
+        "brand" : "Nike",
+        "tag":"limited"
+    }
+]

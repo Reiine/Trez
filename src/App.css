@@ -1,0 +1,577 @@
+
+/* IMPORT */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+/* END */
+
+
+*{
+    margin: 0;
+}
+
+.bg{
+    align-self: center;
+    background-image: url('./components/images/newmd.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: inline-flex;
+    margin: 6.2rem 2rem 5rem 7.2rem;
+    height: 38rem;
+    width: 85%;
+    /* background-color: purple; */
+
+}
+
+/* Nav Items */
+
+.nav{
+    
+    padding: 1rem 0rem;
+    align-items: center;
+    position: fixed;
+    height: 100px;
+    width: 100%;
+    z-index: 99;
+}
+
+.onScrollNav{
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.changeNavBg{
+    background: rgba( 255, 255, 255, 0.5 );
+    /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+    backdrop-filter: blur( 9px );
+    -webkit-backdrop-filter: blur( 9px );
+    /* border-radius: 10px; */
+    border-bottom: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.changeNavBg .navitems{
+    padding:  2.40rem 0;
+}
+
+.logo{
+    margin-left: 2rem;
+}
+
+
+.navb{
+    position: fixed;
+    display: inline-block;
+    right: 0;
+    margin-right: 2rem;
+}
+
+.list{
+    list-style-type: none;
+    display: flex;
+}
+.disableCheck{
+  text-decoration: none;
+  font-size: 20px;
+  color: gray;
+  cursor:default;
+  margin: 5rem 2rem auto auto;
+  font-family: 'Playfair Display', serif;
+  font-weight: 100;
+  padding:  1rem 0;
+}
+.disableCheck:hover{
+  color: gray;
+}
+
+.navitems:hover{
+    border-bottom: solid 3px black;
+    color: gray;
+}
+
+
+.navitems{
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+    margin: 5rem 2rem auto auto;
+    font-family: 'Playfair Display', serif;
+    font-weight: 100;
+    padding:  1rem 0;
+
+}
+
+
+
+
+/* Nav Items End */
+
+/* Upper Section */
+
+.uppertext{
+  display: inline-block;
+  position: relative;
+  top: 7rem;
+  margin-left: 3rem;
+  line-height: 5rem;
+  font-family: 'Playfair Display', serif;
+
+
+}
+.exclusive{
+  background-color: black;
+  color: #EFCB5C; 
+  padding-left: 10px; 
+  padding-right: 30px; 
+  font-size: 90px;
+}
+
+.upFont{
+  font-size: 4rem;
+}
+
+.upFont2{
+  font-family: 'EB Garamond', serif;
+  font-size: 2rem;
+}
+
+.uppertext Button{
+  margin-left: 1.5rem;
+}
+
+/* Upper Section End  */
+
+.newsletter{
+  background-color: lightgrey;
+  height: 15rem;
+  /* margin-bottom: 5rem; */
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr, 2fr ;
+}
+
+.ntext{
+  grid-column: 1/2;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+}
+
+.ntext1{
+
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: 'EB Garamond', serif;
+  padding: 0 0 0 7rem;
+}
+.ntext2{
+  font-size: 1.3rem;
+  font-family: 'EB Garamond', serif;
+  padding: 0 0 0 7.5rem;
+
+}
+
+.nletterbox{
+  margin-top: 5rem ;
+  right: 7.5rem;
+  justify-content: end;
+  grid-column: 2/3;
+  /* background-color: #EFCB5C; */
+} 
+
+
+
+#nlettersignup{
+  width: 30rem;
+  height: 3rem;
+  font-family: 'EB Garamond', serif;
+  font-size: 2rem;
+}
+
+#nbtn{
+  height: 3rem;
+  width: 10rem;
+}
+
+
+
+
+/* Newsletter End */
+
+
+/* P Card */
+
+.main{
+
+  margin-bottom: 5rem;
+}
+
+.main h3{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5rem;
+  font-size: 3rem;
+}
+
+.homecardtopic{
+  margin-top: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+
+}
+.homecardcover{
+  margin-bottom: 5rem;
+}
+
+.hcard{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  
+}
+.pcard{
+  margin-left: 3rem;
+  padding: 10px;
+  font-family: 'EB Garamond', serif;
+}
+.pcard:hover{
+  color: black;
+  transform: scale(1.01,1.01);
+}
+.hcard a{
+  color: black;
+  text-decoration: none;
+}
+.pcard p{
+  display: flex;
+  justify-content: flex-start;
+}
+
+
+.pcard img{
+  margin-bottom: 2rem;
+
+}
+
+.pcard p:first-of-type{
+  color: gray;
+}
+
+/* P card end */
+
+
+/* Search button Component Start */
+
+.searchfull{
+  display: flex;
+  margin-left: 2rem;
+}
+
+.shopsearch{
+  background-color: inherit;
+  height: 2.5rem;
+  width: 20rem;
+  border-radius: 0px 0% 0% 0px;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+}
+
+.shopsearchbutton{
+  height: 2.5rem;
+  width:5rem;
+  margin-left: 2rem;
+  border-radius: 0 5px 5px 0;
+
+}
+.shopsearchbutton img{
+  height: 2rem;
+  width: 2rem;
+}
+
+.buycart{
+  margin: 10px 0;
+}
+/* Search button Component End */
+
+/* Shop components start */
+.shop{
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+.filteritems{
+  font-size: 18px;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 4rem;
+  align-items: center;
+  width: 100%;
+  height: 7rem;
+  margin-top: 7rem;
+  padding-top: 1rem;
+  background-color: black;
+  font-family: 'EB Garamond', serif ;
+}
+
+.brands label{
+  margin-right: 1rem;
+}
+.brands select{
+  width: 10rem;
+  text-align: center;
+}
+.type{
+  display: inline;
+  margin-right: 2rem;
+}
+.type label{
+  margin-right: 1.5rem;
+}
+
+.items{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.items a{
+  text-decoration: none;
+  color: black;
+}
+.shopcomponentcard{
+  margin-top: 3rem;
+}
+.noitemsfound{
+  color: black;
+  display: flex;
+  justify-content: center;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  background-color: #EFCB5C;  
+  font-size: 2rem;
+  font-family: 'EB Garamond', serif;
+}
+
+/* shop components end */
+
+/* Item Component Start */
+
+.itemParentDiv{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5rem;
+}
+
+.itemParentDiv img{
+  margin: 9rem 10rem 0 4rem;
+  width: 30rem;
+
+}
+.textonly{
+  margin-top: 9rem;
+}
+.textonly > :first-child{
+  font-size: 2.5rem;
+}
+
+.textonly > :nth-child(2){
+  margin-bottom: 3rem;
+  margin-top: 1.5rem;
+  color: gray;
+}
+.textonly > :nth-child(3){
+  font-size: 1.5rem;
+}
+.textonly > :nth-child(4){
+  margin-top: 4rem;
+}
+.itemquantity {
+  height: 1.5rem;
+}
+.itemquantity > label{
+  margin-right: 1.5rem;
+}
+.itemquantity select{
+  width: 7rem;
+  margin-right: 1.5rem;
+}
+.itembuttons{
+  margin-top: 7.5rem;
+}
+.itembuttons button{
+  margin-right: 2rem;
+  width: 9rem;
+}
+
+.browseotheritemscover > p{
+  font-size: 1.7rem;
+  font-family: "EB Garabond", "serif";
+  margin-left: 4rem;
+}
+.browseotheritemscover{
+  margin-bottom: 5rem;
+}
+
+.itemcomponentcard{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.itemcomponentcard a{
+  color: black;
+  text-decoration: none;
+}
+
+
+/* Item Component End */
+
+/* Account Component Start */
+
+.accountcover{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 53rem;
+  font-family: "EB Garamond", "serif";
+}
+
+.signincover{
+  border: 1px solid black;
+  width: 30rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.signincover p{
+  font-size: 1.7rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+}
+.form input{
+  height: 2.5rem;
+}
+
+label {
+  margin-bottom: 10px;
+}
+.gender label{
+  margin-left: 2rem;
+  margin-right: 1.1rem;
+}
+
+
+
+
+/* Account Component End */
+
+/* CART Component Start */
+
+.cartcover{
+  height: 50rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.cartcover :first-child{
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.cartValue{
+  position: absolute;
+  right: 113px;
+  top: -10px;
+  font-weight: bold;
+
+}
+
+
+
+/* CART Component End */
+
+
+
+/* footer */
+.end{
+  font-weight: 100;
+  font-size: 11pt;
+  display: grid;
+  grid-template-columns: 3fr 4fr 2fr;
+  grid-template-rows: 3fr, 1fr;
+  padding:2rem 7rem;
+  color: lightgray;
+  /* height: 23rem; */
+  width: auto;
+  background-color: black;
+}
+
+.social{
+  margin-top: 1.5rem;
+}
+
+
+
+.sociallogo{
+  display: inline-block;
+  transition: 0.5s;
+  text-decoration: none;
+  color: darkgray; 
+  background-color: none;
+  opacity: 0.8;
+  padding: 0;
+  margin: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.sociallogo:hover{
+  transform: scale(1.1);
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.service{
+  grid-column: 1/2;
+  grid-row: 1/2;
+}
+
+.service > ul{
+  list-style: none;
+  padding-left: 0;
+}
+
+
+.contact{
+  grid-column: 3/4;
+  grid-row: 1/2;
+  
+}
+.shipping{
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+
+.shipping > ul{
+  list-style: none;
+  display: inline-block;
+  padding: 0 2rem 0rem 0rem;
+}
+
+.footerlist{
+  margin-bottom: 1rem;
+}
+
+.payment > p > img{
+  padding-right: 2rem;
+  padding-top: 1rem;
+}
+
+.copyright{
+  grid-column: 1/-1;
+  grid-row: 2/3;
+  justify-content: center;
+  text-align: center;
+  margin-top: 3.5rem;
+  font-weight: bolder;
+  color: lightgray
+}
