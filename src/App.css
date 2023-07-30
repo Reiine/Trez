@@ -8,25 +8,20 @@
     margin: 0;
 }
 
-.bg{
-    align-self: center;
-    background-image: url('./components/images/newmd.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    display: inline-flex;
-    margin: 6.2rem 2rem 5rem 7.2rem;
-    height: 38rem;
-    width: 85%;
+.modelimg{
+  height: 38rem;
+  display: block;
+  margin: auto;
+  padding-top: 7rem;
+  z-index: 77;
     /* background-color: purple; */
 
 }
 
+
 /* Nav Items */
 
 .nav{
-    
-    padding: 1rem 0rem;
     align-items: center;
     position: fixed;
     height: 100px;
@@ -34,10 +29,6 @@
     z-index: 99;
 }
 
-.onScrollNav{
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-}
 .changeNavBg{
     background: rgba( 255, 255, 255, 0.5 );
     /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
@@ -57,28 +48,13 @@
 
 
 .navb{
-    position: fixed;
-    display: inline-block;
-    right: 0;
+    margin-left: auto;
     margin-right: 2rem;
 }
 
 .list{
     list-style-type: none;
     display: flex;
-}
-.disableCheck{
-  text-decoration: none;
-  font-size: 20px;
-  color: gray;
-  cursor:default;
-  margin: 5rem 2rem auto auto;
-  font-family: 'Playfair Display', serif;
-  font-weight: 100;
-  padding:  1rem 0;
-}
-.disableCheck:hover{
-  color: gray;
 }
 
 .navitems:hover{
@@ -106,11 +82,12 @@
 /* Upper Section */
 
 .uppertext{
-  display: inline-block;
-  position: relative;
-  top: 7rem;
+  position: absolute;
+  bottom: 7rem;
+  left: 10rem;
+  width: 24rem;
   margin-left: 3rem;
-  line-height: 5rem;
+  line-height: 4rem;
   font-family: 'Playfair Display', serif;
 
 
@@ -130,10 +107,6 @@
 .upFont2{
   font-family: 'EB Garamond', serif;
   font-size: 2rem;
-}
-
-.uppertext Button{
-  margin-left: 1.5rem;
 }
 
 /* Upper Section End  */
@@ -228,7 +201,6 @@
   
 }
 .pcard{
-  margin-left: 3rem;
   padding: 10px;
   font-family: 'EB Garamond', serif;
 }
@@ -473,19 +445,25 @@ label {
   align-items: center;
   flex-direction: column;
 }
-.cartcover :first-child{
+.cartcover:first-child{
   font-size: 2rem;
   font-weight: bold;
 }
 
 .cartValue{
   position: absolute;
-  right: 113px;
-  top: -10px;
+  right: 152px;
+  top: 10px;
   font-weight: bold;
 
 }
-
+.log-reg-btn{
+  display: flex;
+}
+.log-reg-btn button{
+  margin-left: 1rem;
+  width: 5rem;
+}
 
 
 /* CART Component End */

@@ -6,8 +6,6 @@ import searchimg from './images/search.png';
 import accimg from './images/acc.png';
 
 function Nav(props) {
-  const disable = true;
-  const disableCheck = (disable === true ? "disableCheck" : "navitems")
   const [isScrolled, setIsScrolled] = useState(false);
   const [search, setSearch] = useState('')
   const handleSearch = (val) => {
@@ -51,11 +49,6 @@ function Nav(props) {
               <Link to={'/shop'} className="navitems">
                 Shop
               </Link>
-            </li>
-            <li aria-disabled>
-              <a to={'/sell'} className={disableCheck} disabled={true} title='please login to access'>
-                Sell
-              </a>
             </li>
             <div className="searchfull">
               <input type="text" className='shopsearch' placeholder='search...' onChange={(e) => handleSearch(e.target.value)} onKeyDown={(e) => handleKey(e)} />

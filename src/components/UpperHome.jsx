@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import model from './images/newmd.jpg';
 
 function UpperHome() {
     const handleRedirect = (val) =>{
@@ -13,6 +14,7 @@ function UpperHome() {
     return ( 
         <>
             <section className="bg">
+                <img src={model} alt="model" className='modelimg'/>
                 <div className="uppertext">
                     <span className="exclusive"> Exclusive</span> 
                     <h3 className="upFont">

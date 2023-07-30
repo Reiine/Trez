@@ -33,7 +33,7 @@ function HomeCard() {
             <p className='homecardtopic'><span style={{borderBottom:"3px solid black"}}>Exc</span>lusive</p>
             <div className='hcard'>
                 {filterpre.map((element, index) => <CardComponent element={element} key={index} />)}
-            </div>
+            </div> 
         </div>
      );
 }

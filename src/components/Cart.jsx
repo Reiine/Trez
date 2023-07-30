@@ -1,12 +1,15 @@
 import React from 'react';
 
 function Cart() {
-    return ( 
+    return (
         <div className='cartcover'>
-            <p>This section is under maintainance!</p>
-            <p>Please try again later...</p>
+            <p>Please Register/Login to access the cart</p>
+            <div className="log-reg-btn">
+                <button className='btn btn-dark'>Register</button>
+                <button className='btn btn-dark'>Login</button>
+            </div>
         </div>
-     );
+    );
 }
 
 export default Cart;
