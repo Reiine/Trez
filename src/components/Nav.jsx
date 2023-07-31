@@ -4,10 +4,23 @@ import trezlogo from '../components/images/trezlogo.png';
 import shoppingCart from '../components/images/sc.png';
 import searchimg from './images/search.png';
 import accimg from './images/acc.png';
+import axios from 'axios';
 
 function Nav(props) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [search, setSearch] = useState('')
+  const [cartValue , setCartValue] = useState()
+  const [search, setSearch] = useState('');
+  useEffect(()=>{
+    async function numberCartItems(){
+      try{
+          const response = await axios.get('http://localhost:3001/number-of-items');
+          console.log(response);
+          setCartValue(response.data.value)
+      }catch(e){
+        console.log("can't send/get");
+      }
+    }
+  },[])
   const handleSearch = (val) => {
     if (val !== '') {
       setSearch(val);
@@ -66,7 +79,7 @@ function Nav(props) {
             </li>
           </ul>
           <div className="cartval">
-            <span className='cartValue'>{props.cartValue}</span>
+            <span className='cartValue'>{cartValue}</span>
           </div>
         </div>
       </div>

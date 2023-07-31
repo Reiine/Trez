@@ -1,11 +1,12 @@
-import React, { useState, useEffect} from 'react';
-import records from '../homeclothes.json';
-import { Card } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { CardComponent } from './HomeCard';
+import axios from 'axios';
 
 function Shop() {
-    const link  = window.location.href.slice(27).replaceAll('%20' , ' ')
+  const link = window.location.href.slice(27).replaceAll('%20', ' ')
   const [filter, setFilter] = useState({ brand: 'all', type: 'all' });
-  const [filteredData, setFilteredData] = useState(records);
+  const [records, setRecords] = useState(null)
+  const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
     let newData = records;
 
@@ -29,16 +30,43 @@ function Shop() {
   };
 
   useEffect(() => {
-    if (link !== ''){
+    if (link !== '') {
       const a = filteredData.filter((data) => {
         return Array.isArray(data.hash) && data.hash.includes(link);
       });
       setFilteredData(a);
     }
   }, [link]);
-  
-  
- 
+
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get('http://localhost:3001/product');
+        setRecords(response.data);
+      } catch (e) {
+        console.log('Error fetching data:', e);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (records !== null) {
+      let newData = records;
+
+      if (filter.brand !== 'all') {
+        newData = newData.filter((item) => item.brand === filter.brand);
+      }
+
+      if (filter.type !== 'all') {
+        newData = newData.filter((item) => item.tag === filter.type);
+      }
+
+      setFilteredData(newData);
+    }
+  }, [filter, records]);
 
   return (
     <div className="shop">
@@ -63,24 +91,17 @@ function Shop() {
         </div>
       </div>
       <div className="items">
-        {filteredData.map((item) => (
+      {filteredData !== null && filteredData.length > 0 ? (
+        filteredData.map((item) => (
           <div key={item.id} className="pcard shopcomponentcard">
-            <a href={`/items/${item.name}`}>
-              <Card style={{ width: '18rem' }}>
-                <Card.Img variant="top" src={item.img} height={200} width={200} />
-                <Card.Body>
-                  <Card.Title>{item.name}</Card.Title>
-                  <p>{item.brand}</p>
-                  <p>Rs. {item.price}</p>
-                </Card.Body>
-              </Card>
-            </a>
+            <CardComponent element={item} />
           </div>
-        ))}
-      </div>
-      {(filteredData.length===0 && <p className='noitemsfound'>No items found!</p>)}
+        ))
+      ) : (
+        <p className='noitemsfound'>No items found!</p>
+      )}
     </div>
+  </div>
   );
 }
-
 export default Shop;

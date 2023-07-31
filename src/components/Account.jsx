@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function SignUp() {
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [gender, setGender] = useState('');
     const [email, setEmail] = useState('');
@@ -12,6 +15,7 @@ function SignUp() {
             await axios.post('http://localhost:3001/register',{
                 name,email,gender,pass
             })
+            navigate('/account/login')
         }catch(e){
             console.log("Failed to send data");
         }
@@ -62,9 +66,9 @@ function SignUp() {
                     <label htmlFor='password'>Password:</label>
                     <input type='password' onChange={(e)=>setPass(e.target.value)} />
                 </div>
-                <a href={`/account/login`} className='form'>
+                <Link to={`/account/login`} className='form'>
                     Already have an account?
-                </a>
+                </Link>
                 <Button variant='primary' className='form'  onClick={submit}>
                     Sign Up
                 </Button>
@@ -73,19 +77,31 @@ function SignUp() {
     );
 }
 
-function LogIn() {
+function LogIn({handleAuthToken}) {
     const [email, setEmail] = useState('');
     const [pass , setPass] = useState('');
-
+    const [isLogin , setIsLogin] = useState(false)
+    const navigate = useNavigate();
     async function submit (){
         try{
             await axios.post('http://localhost:3001/login',{
                 email,pass
             })
+            .then((res)=>{
+                handleAuthToken(res.data.token,true)
+                setIsLogin(true)
+                navigate('/')
+                localStorage.setItem('authToken', res.data.token);
+            })
         }catch(e){
             console.log('error in login');
         }
     }
+    useEffect(()=>{
+        if(isLogin){
+
+        }
+    })
     return (
         <div className='accountcover'>
             <div className='signincover'>
@@ -98,7 +114,7 @@ function LogIn() {
                     <label htmlFor="password">Password:</label>
                     <input type="password" onChange={(e)=>setPass(e.target.value)}/>
                 </div>
-                <a href={`/account/signup`} className='form'>Don't have an account?</a>
+                <Link to={`/account/signup`} className='form'>Don't have an account?</Link>
                 <Button variant='dark' className='form br-0' onClick={submit}>Login</Button>
 
             </div>
