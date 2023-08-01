@@ -4,14 +4,6 @@ import model from './images/newmd.jpg';
 import { Link } from 'react-router-dom';
 
 function UpperHome() {
-    const handleRedirect = (val) =>{
-        if (val==="signin"){
-            window.location.href='/account/signup';
-        }
-        else if (val === "login"){
-            window.location.href='account/login';
-        }
-    }
     return ( 
         <>
             <section className="bg">
@@ -27,7 +19,7 @@ function UpperHome() {
                     <button className=" btn rounded-pill btn-dark signb px-5" href='signin'>
                         <Link to="account/signup">Sign Up</Link>
                     </button>
-                    <button className="btn rounded-pill btn-outline-dark signa px-5 " onClick={()=>handleRedirect("login")}>
+                    <button className="btn rounded-pill btn-outline-dark signa px-5 ">
                         <Link to="account/login">Login</Link>
                     </button>
                 </div>

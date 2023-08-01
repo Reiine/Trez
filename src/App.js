@@ -18,22 +18,22 @@ import { useState, useEffect } from 'react';
 import Admin from './components/Admin';
 
 function App() {
-  const [cartVal, setCartVal] = useState(0)
   const [authToken, setAuthToken] = useState('');
-  const [isLogin , setIsLogin ] =useState(false)
+  const [isLogin , setIsLogin ] = useState(false)
+  const [cartAccess , setCartAccess] = useState(false);
+  const setCartAccessed = (e) =>{
+    setCartAccess(e);
+  }
+
   const handleAuthToken= (val,val2) =>{
     setAuthToken(val)
     setIsLogin(val2)
   }
 
-  const changeCartVal = () => {
-    setCartVal(cartVal+1);
-  }
   return (
     <Router>
-      <Nav cartValue={cartVal}/>
+      <Nav authToken={authToken} cartAccess={cartAccess}/>
       <div className="App">
-        
         <Routes>
         
           <Route path="/" element={
@@ -44,13 +44,11 @@ function App() {
           }/>
 
           <Route path="/shop/*" element={<Shop/>}/>
-          <Route path="/items/:id" element={<Items onClick={setCartVal} authToken={authToken} />} />
+          <Route path="/items/:id" element={<Items authToken={authToken} setCartAccessed={setCartAccessed} cartAccess={cartAccess}/>} />
           <Route path='/account/signup' element={<Signup/>}/>
           <Route path='/account/login' element={<Login handleAuthToken={handleAuthToken}/>}/>
-          <Route path='/cart' element={<Cart />}/>
+          <Route path='/cart' element={<Cart isLogin={isLogin} authToken={authToken} />}/>
           <Route path='/admin' element={<Admin/>}/>
-
-
         </Routes>
       </div>
       <Footer className="footer"/>

@@ -10,13 +10,13 @@ function SignUp() {
     const [gender, setGender] = useState('');
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-    async function submit(){
-        try{
-            await axios.post('http://localhost:3001/register',{
-                name,email,gender,pass
+    async function submit() {
+        try {
+            await axios.post('http://localhost:3001/register', {
+                name, email, gender, pass
             })
             navigate('/account/login')
-        }catch(e){
+        } catch (e) {
             console.log("Failed to send data");
         }
     }
@@ -36,7 +36,7 @@ function SignUp() {
                         id='male'
                         value='male'
                         checked={gender === 'male'}
-                        onChange={(e)=>setGender(e.target.value)}
+                        onChange={(e) => setGender(e.target.value)}
                     />
                     <label htmlFor='male'>Male</label>
                     <input
@@ -45,7 +45,7 @@ function SignUp() {
                         id='female'
                         value='female'
                         checked={gender === 'female'}
-                        onChange={(e)=>setGender(e.target.value)}
+                        onChange={(e) => setGender(e.target.value)}
                     />
                     <label htmlFor='female'>Female</label>
                     <input
@@ -54,22 +54,22 @@ function SignUp() {
                         id='trans'
                         value='transgender'
                         checked={gender === 'transgender'}
-                        onChange={(e)=>setGender(e.target.value)}
+                        onChange={(e) => setGender(e.target.value)}
                     />
                     <label htmlFor='trans'>Transgender</label>
                 </div>
                 <div className='form'>
                     <label htmlFor='email'>Email:</label>
-                    <input type='email' placeholder='example@xyz.com' onChange={(e)=>setEmail(e.target.value)} />
+                    <input type='email' placeholder='example@xyz.com' onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className='form'>
                     <label htmlFor='password'>Password:</label>
-                    <input type='password' onChange={(e)=>setPass(e.target.value)} />
+                    <input type='password' onChange={(e) => setPass(e.target.value)} />
                 </div>
                 <Link to={`/account/login`} className='form'>
                     Already have an account?
                 </Link>
-                <Button variant='primary' className='form'  onClick={submit}>
+                <Button variant='primary' className='form' onClick={submit}>
                     Sign Up
                 </Button>
             </div>
@@ -77,42 +77,44 @@ function SignUp() {
     );
 }
 
-function LogIn({handleAuthToken}) {
+function LogIn({ handleAuthToken }) {
     const [email, setEmail] = useState('');
-    const [pass , setPass] = useState('');
-    const [isLogin , setIsLogin] = useState(false)
+    const [pass, setPass] = useState('');
+    const [isLogin, setIsLogin] = useState(false)
     const navigate = useNavigate();
-    async function submit (){
-        try{
-            await axios.post('http://localhost:3001/login',{
-                email,pass
+    async function submit() {
+        try {
+            await axios.post('http://localhost:3001/login', {
+                email, pass
             })
-            .then((res)=>{
-                handleAuthToken(res.data.token,true)
-                setIsLogin(true)
-                navigate('/')
-                localStorage.setItem('authToken', res.data.token);
-            })
-        }catch(e){
+                .then((res) => {
+                    console.log(res.data.message)
+                    if (res.data.message === 'logsuccess') {
+                        handleAuthToken(res.data.token, true)
+                        console.log(res.data.token)
+                        setIsLogin(true)
+                        navigate('/')
+                        localStorage.setItem('authToken', res.data.token);
+                    }else{
+                        alert('wrong credentialsss')
+                    }
+                })
+        } catch (e) {
             console.log('error in login');
         }
     }
-    useEffect(()=>{
-        if(isLogin){
 
-        }
-    })
     return (
         <div className='accountcover'>
             <div className='signincover'>
                 <p className='form'>Login</p>
                 <div className="form">
                     <label htmlFor="email">Email:</label>
-                    <input type="email" placeholder='example@xyz.com' onChange={(e)=>setEmail(e.target.value)} />
+                    <input type="email" placeholder='example@xyz.com' onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="form">
                     <label htmlFor="password">Password:</label>
-                    <input type="password" onChange={(e)=>setPass(e.target.value)}/>
+                    <input type="password" onChange={(e) => setPass(e.target.value)} />
                 </div>
                 <Link to={`/account/signup`} className='form'>Don't have an account?</Link>
                 <Button variant='dark' className='form br-0' onClick={submit}>Login</Button>

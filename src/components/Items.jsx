@@ -3,11 +3,9 @@ import { useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { CardComponent } from './HomeCard';
 import axios from 'axios';
-
-function Items({authToken, setCartVal}) {
+function Items({authToken, setCartAccessed , cartAccessed}) {
   const [filterNew, setFilterNew] = useState([]);
   const { id } = useParams();
-  console.log(id)
   const [itemFilter, setItemFilter] = useState(null);
   const [cartStock, setCartStock] = useState(5);
   const [quantity, setQuantity] = useState(1);
@@ -32,17 +30,27 @@ function Items({authToken, setCartVal}) {
   }, [id]);
 
   async function handleCart() {
+    if (!authToken) {
+      alert('Please Login To Access Cart!');
+      return;
+    }
+  
     try {
-      await axios.post('http://localhost:3001/addToCart', {
-        quantity,
-        itemId,
-      }, {
-        headers: {
-          Authorization: `Bearer ${authToken}`
+      await axios.post(
+        'http://localhost:3001/addToCart',
+        {
+          quantity,
+          itemId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
         }
-      });
+      );
+      setCartAccessed((prev) => !prev);
     } catch (e) {
-      console.log("Error adding to cart");
+      console.log('Error adding to cart', e);
     }
   }
 
@@ -87,6 +95,7 @@ function Items({authToken, setCartVal}) {
           })}
         </div>
       </div>
+      
     </div>
   );
 }

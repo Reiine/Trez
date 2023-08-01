@@ -4,11 +4,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 function CardComponent({ element }) {
-    const handleTop = (e) =>{
-        e.target.scrollY=0;
-    }
     return (
-        <Link to={`/items/${element._id}`} onClick={(e)=>handleTop(e)}>
+        <Link to={`/items/${element._id}`}>
             <div className="pcard">
                 <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src={element.img} height={200} width={200} />

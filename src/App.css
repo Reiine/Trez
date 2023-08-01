@@ -447,7 +447,7 @@ label {
 
 /* Account Component End */
 
-/* CART Component Start */
+/* CART NAV SPAN Start */
 
 .cartcover{
   height: 50rem;
@@ -477,9 +477,25 @@ label {
 }
 
 
-/* CART Component End */
+/* CART NAV SPAN End */
 
 
+/* CART COMPONENT START */
+
+.logged-in-cart{
+  padding-top: 10rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  height: 45rem;
+}
+.cart-item{
+  padding: 4rem;
+  margin:2rem 5rem auto;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+
+/* CART COMPONENT END */
 
 /* footer */
 .end{

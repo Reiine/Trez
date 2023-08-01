@@ -5,27 +5,42 @@ import shoppingCart from '../components/images/sc.png';
 import searchimg from './images/search.png';
 import accimg from './images/acc.png';
 import axios from 'axios';
+import { numberCartItems } from './apiutils/apiUtils';
 
-function Nav(props) {
+function Nav({ authToken, cartAccess }) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [cartValue , setCartValue] = useState()
+  const [cartValue, setCartValue] = useState(0);
   const [search, setSearch] = useState('');
-  useEffect(()=>{
-    async function numberCartItems(){
-      try{
-          const response = await axios.get('http://localhost:3001/number-of-items');
-          console.log(response);
-          setCartValue(response.data.value)
-      }catch(e){
-        console.log("can't send/get");
+
+  useEffect(() => {
+    if (authToken) {
+      async function fetchCartItems() {
+        console.log(authToken,cartAccess)
+        try {
+          const response = await axios.post('http://localhost:3001/number-of-items',{}, {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            }
+          });
+  
+          const cartValue = response.data.value;
+          console.log('Cart Value:', cartValue);
+          setCartValue(cartValue);
+        } catch (error) {
+          console.error('Error fetching cart items:', error);
+        }
       }
+      fetchCartItems();
     }
-  },[])
+  }, [authToken, cartAccess]);
+  
+
   const handleSearch = (val) => {
     if (val !== '') {
       setSearch(val);
     }
   }
+
   useEffect(() => {
     function handleScroll() {
       if (window.scrollY > 0) {
@@ -39,9 +54,6 @@ function Nav(props) {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  // eslint-disable-next-line no-unused-vars
-
 
   const handleKey = (val) => {
     val.key === "Enter" && (window.location.href = `/shop/${search}`);
@@ -88,5 +100,3 @@ function Nav(props) {
 }
 
 export default Nav;
-
-//il capitano from noun project 
