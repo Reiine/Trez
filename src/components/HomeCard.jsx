@@ -22,15 +22,19 @@ function CardComponent({ element }) {
 
 function HomeCard() {
     const [premiumItems, setPremiumItems] = useState([]);
+    const [exclusiveItems, setExclusiveItems] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
             try {
                 const response = await axios.get('http://localhost:3001/product');
                 const data = response.data;
-                const filteredData = data.filter((item) => item.tag === 'premium' || item.tag === 'limited');
-                const slicedData = filteredData.slice(0, 4);
+                const premData = data.filter((item) => item.tag === 'premium');
+                const slicedData = premData.slice(0, 4);
                 setPremiumItems(slicedData);
+                const excData = data.filter((item) => item.tag === 'limited' );
+                const excSlicedData = excData.slice(0,4);
+                setExclusiveItems(excSlicedData);
             } catch (e) {
                 console.log('Error fetching data:', e);
             }
@@ -49,10 +53,10 @@ function HomeCard() {
                 ))}
             </div>
             <p className="homecardtopic">
-                <span style={{ borderBottom: '3px solid black' }}>Exclusive</span>
+                <span style={{ borderBottom: '3px solid black' }}>Limited</span>
             </p>
             <div className="hcard">
-                {premiumItems.map((element, index) => (
+                {exclusiveItems.map((element, index) => (
                     <CardComponent element={element} key={index} />
                 ))}
             </div>

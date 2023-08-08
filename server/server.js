@@ -73,7 +73,22 @@ app.get('/product', async (req, res) => {
     }
 });
 
-
+app.get('/product/:itemId', async (req, res) => {
+    try {
+      const itemId = req.params.itemId;
+      const item = await products.findOne({ _id: itemId });
+  
+      if (item) {
+        res.json(item);
+      } else {
+        res.status(404).json({ error: 'Item not found' });
+      }
+    } catch (e) {
+      console.log('Error fetching item:', e);
+      res.status(500).json({ error: 'Error fetching item' });
+    }
+  });
+  
 app.post('/addToCart', verifyUser, async (req, res) => {
     try {
         const user = req.user;
@@ -87,7 +102,7 @@ app.post('/addToCart', verifyUser, async (req, res) => {
             const { itemId, quantity } = req.body;
             const newCart = new cartItems({
                 userId: user._id,
-                cartItems: [{ itemId, quantity }], // Initialize cartItems array with the new cart item
+                cartItems: [{ itemId, quantity,price }], // Initialize cartItems array with the new cart item
             });
             await newCart.save();
         }
@@ -134,6 +149,65 @@ app.post('/fetch-cart-items', verifyUser, async (req, res) => {
     }
 })
 
+
+
+app.use(express.json()); 
+
+app.post('/quantity-update', verifyUser, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { itemId, newQuantity } = req.body;
+    const cartItem = await cartItems.findOne({ userId: userId, 'cartItems.itemId': itemId });
+    if (!cartItem) {
+      return res.status(404).json({ message: 'Cart item not found' });
+    }
+    cartItem.cartItems.find((item) => item.itemId === itemId).quantity = newQuantity;
+    await cartItem.save();
+    res.json({ message: 'Quantity updated successfully' });
+  } catch (error) {
+    console.error('Error updating quantity:', error);
+    res.status(500).json({ message: 'Error updating quantity' });
+  }
+});
+
+// Route to delete a cart item based on itemId
+app.delete('/cart-item-delete/:itemId', verifyUser, async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+  
+      const userId = req.user._id;
+      const itemId = req.params.itemId;
+  
+      // Find the user's cart
+      const cart = await cartItems.findOne({ userId });
+  
+      if (!cart) {
+        return res.status(404).json({ message: 'User cart not found' });
+      }
+  
+      // Find the index of the cart item with the provided itemId
+      const cartItemIndex = cart.cartItems.findIndex((item) => item.itemId === itemId);
+  
+      if (cartItemIndex === -1) {
+        return res.status(404).json({ message: 'Cart item not found' });
+      }
+  
+      // Remove the cart item from the cart
+      cart.cartItems.splice(cartItemIndex, 1);
+  
+      // Save the updated cart
+      await cart.save();
+  
+      res.json({ message: 'Item removed from cart successfully' });
+    } catch (e) {
+      console.error('Error removing item from cart:', e);
+      res.status(500).json({ error: 'Error removing item from cart' });
+    }
+  });
+  
+  
 
 
 

@@ -23,3 +23,15 @@ export async function numberCartItems(authToken) {
     }
   }
 }
+
+
+export async function fetchItemDetails(itemId) {
+  try {
+    const response = await axios.get(`http://localhost:3001/product/${itemId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching item details:', error);
+    return null;
+  }
+}
+

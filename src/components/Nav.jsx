@@ -5,9 +5,8 @@ import shoppingCart from '../components/images/sc.png';
 import searchimg from './images/search.png';
 import accimg from './images/acc.png';
 import axios from 'axios';
-import { numberCartItems } from './apiutils/apiUtils';
 
-function Nav({ authToken, cartAccess }) {
+function Nav({ authToken, cartAccess, cartItemCount,setCartItemCount }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [cartValue, setCartValue] = useState(0);
   const [search, setSearch] = useState('');
@@ -15,14 +14,17 @@ function Nav({ authToken, cartAccess }) {
   useEffect(() => {
     if (authToken) {
       async function fetchCartItems() {
-        console.log(authToken,cartAccess)
+        console.log(authToken, cartAccess)
         try {
-          const response = await axios.post('http://localhost:3001/number-of-items',{}, {
+          const response = await axios.post('http://localhost:3001/number-of-items', {}, {
             headers: {
               Authorization: `Bearer ${authToken}`,
             }
           });
-  
+          const cartItemCount = response.data.value;
+          console.log('Cart Item Count:', cartItemCount);
+          setCartItemCount(cartItemCount);
+
           const cartValue = response.data.value;
           console.log('Cart Value:', cartValue);
           setCartValue(cartValue);
@@ -33,7 +35,7 @@ function Nav({ authToken, cartAccess }) {
       fetchCartItems();
     }
   }, [authToken, cartAccess]);
-  
+
 
   const handleSearch = (val) => {
     if (val !== '') {
@@ -77,7 +79,7 @@ function Nav({ authToken, cartAccess }) {
             </li>
             <div className="searchfull">
               <input type="text" className='shopsearch' placeholder='search...' onChange={(e) => handleSearch(e.target.value)} onKeyDown={(e) => handleKey(e)} />
-              <a href={`/shop/${search}`} className='shopsearchbutton'><img src={searchimg} alt="searchimg" /></a>
+              <Link to={`/shop/${search}`} className='shopsearchbutton'><img src={searchimg} alt="searchimg" /></Link>
             </div>
             <li>
               <Link to={'/cart'} className='navitems'>
@@ -91,7 +93,7 @@ function Nav({ authToken, cartAccess }) {
             </li>
           </ul>
           <div className="cartval">
-            <span className='cartValue'>{cartValue}</span>
+            <span className='cartValue'>{cartItemCount}</span>
           </div>
         </div>
       </div>

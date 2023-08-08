@@ -1,0 +1,206 @@
+[{
+  "_id": {
+    "$oid": "64c777b6a1b6c72cb8a06348"
+  },
+  "name": "On The Ground",
+  "brand": "H&M",
+  "hash": [
+    "pant",
+    "brown",
+    "on",
+    "the",
+    "ground",
+    "hnm",
+    "h&m",
+    "500",
+    "premium"
+  ],
+  "tag": "premium",
+  "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+  "img": "https://source.unsplash.com/1600x900/?ground",
+  "price": 500,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c777b6a1b6c72cb8a0634a"
+  },
+  "name": "Summer Side",
+  "brand": "Nike",
+  "hash": [
+    "shirt",
+    "yellow",
+    "summer",
+    "side",
+    "600",
+    "nike",
+    "cloth",
+    "t-shirt",
+    "premium"
+  ],
+  "tag": "premium",
+  "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+  "img": "https://source.unsplash.com/1600x900/?summer",
+  "price": 600,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c777b6a1b6c72cb8a0634c"
+  },
+  "name": "Winter Snow",
+  "brand": "Adidas",
+  "hash": [
+    "winter",
+    "snow",
+    "t",
+    "tee",
+    "t shirt",
+    "white",
+    "399",
+    "adidas",
+    "limited"
+  ],
+  "tag": "limited",
+  "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+  "img": "https://source.unsplash.com/1600x900/?winter",
+  "price": 399,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c777b6a1b6c72cb8a0634e"
+  },
+  "name": "Maple",
+  "brand": "H&M",
+  "hash": [
+    "maple",
+    "500",
+    "pant",
+    "shorts",
+    "hnm",
+    "h&m",
+    "limited",
+    "red"
+  ],
+  "tag": "limited",
+  "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+  "img": "https://source.unsplash.com/1600x900/?maple",
+  "price": 500,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c777b6a1b6c72cb8a06350"
+  },
+  "name": "Gray Vibe",
+  "brand": "Nike",
+  "hash": [
+    "gray",
+    "vibes",
+    "600",
+    "nike",
+    "limited",
+    "limited",
+    "trouser",
+    "gray",
+    "grey",
+    "clothes"
+  ],
+  "tag": "limited",
+  "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+  "img": "https://source.unsplash.com/1600x900/?gray,shirt",
+  "price": 600,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c777b6a1b6c72cb8a06352"
+  },
+  "name": "Fresh Desert",
+  "brand": "H&M",
+  "hash": [
+    "fresh",
+    "desert",
+    "500",
+    "hnm",
+    "h&m",
+    "premium",
+    "yellow",
+    "colour"
+  ],
+  "tag": "premium",
+  "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+  "img": "https://source.unsplash.com/1600x900/?desert",
+  "price": 500,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c777b6a1b6c72cb8a06354"
+  },
+  "name": "Comfy Home",
+  "brand": "Nike",
+  "hash": [
+    "comfy",
+    "home",
+    "nike",
+    "600",
+    "premium",
+    "sweatshirt",
+    "swaetpant",
+    "comfortable"
+  ],
+  "tag": "premium",
+  "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+  "img": "https://source.unsplash.com/1600x900/?comfy",
+  "price": 600,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c777b6a1b6c72cb8a06356"
+  },
+  "name": "Farmside Classic",
+  "brand": "Adidas",
+  "hash": [
+    "farmside",
+    "classic",
+    "399",
+    "adidas",
+    "limited",
+    "t-shirt",
+    "t shirt"
+  ],
+  "tag": "limited",
+  "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+  "img": "https://source.unsplash.com/1600x900/?farm",
+  "price": 399,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c777b6a1b6c72cb8a06358"
+  },
+  "name": "Water Weather",
+  "brand": "H&M",
+  "hash": [],
+  "tag": "premium",
+  "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+  "img": "https://source.unsplash.com/1600x900/?water,weather",
+  "price": 500,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c777b6a1b6c72cb8a0635a"
+  },
+  "name": "Sloppy Tee",
+  "brand": "Nike",
+  "hash": [],
+  "tag": "limited",
+  "des": "lorem dlksv s;ldk jwhekjw .sdij .fdhfjdf jhdjfjdb jmbmsdsmdsjmdn lkjadljsakjdlaksjl",
+  "img": "https://source.unsplash.com/1600x900/?sloppy",
+  "price": 600,
+  "__v": 0
+}]

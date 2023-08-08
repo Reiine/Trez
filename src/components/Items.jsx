@@ -53,7 +53,6 @@ function Items({authToken, setCartAccessed , cartAccessed}) {
       console.log('Error adding to cart', e);
     }
   }
-
   return (
     <div className="itemscover">
       {itemFilter && (

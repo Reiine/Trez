@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 function SignUp() {
@@ -69,7 +69,7 @@ function SignUp() {
                 <Link to={`/account/login`} className='form'>
                     Already have an account?
                 </Link>
-                <Button variant='primary' className='form' onClick={submit}>
+                <Button variant='dark' className='form' onClick={submit}>
                     Sign Up
                 </Button>
             </div>
@@ -88,7 +88,6 @@ function LogIn({ handleAuthToken }) {
                 email, pass
             })
                 .then((res) => {
-                    console.log(res.data.message)
                     if (res.data.message === 'logsuccess') {
                         handleAuthToken(res.data.token, true)
                         console.log(res.data.token)
@@ -117,7 +116,7 @@ function LogIn({ handleAuthToken }) {
                     <input type="password" onChange={(e) => setPass(e.target.value)} />
                 </div>
                 <Link to={`/account/signup`} className='form'>Don't have an account?</Link>
-                <Button variant='dark' className='form br-0' onClick={submit}>Login</Button>
+                <Button variant='dark' className='form br-0' onClick={submit}  >Login</Button>
 
             </div>
         </div>
