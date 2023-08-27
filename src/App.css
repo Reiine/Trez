@@ -24,6 +24,13 @@ a{
 a:hover{
   color: white;
 }
+textarea{
+  resize: none;
+  outline: none;
+  font-family: "EB Gamond";
+  width: 72vh;
+}
+
 /* Nav Items */
 
 .nav{
@@ -42,7 +49,7 @@ a:hover{
     /* border-radius: 10px; */
     border-bottom: 1px solid rgba( 255, 255, 255, 0.18 );
 }
-
+ 
 .changeNavBg .navitems{
     padding:  2.40rem 0;
 }
@@ -87,37 +94,44 @@ a:hover{
 /* Upper Section */
 
 .bg{
-  position: relative;
   float: center;
   font-family: 'Playfair Display', serif;
+  background-image: url('./components/images/newmd.jpg');
+  height: 100vh;
+  background-size: cover;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 .uppertext{
-  position: absolute;
-  top: 13.5rem;
   z-index: 2;
   line-height: 4rem;
-  left: 13rem;
+  margin-left:3rem;
+  margin-top: 4rem;
 }
 .exclusive{
   background-color: black;
   color: #EFCB5C; 
   padding-left: 10px; 
   padding-right: 30px; 
-  font-size: 90px;
+  font-size: 5rem;
 }
 
 .upFont{
-  font-size: 4rem;
+  font-size: 5rem;
 }
 
 .upFont2{
   font-family: 'EB Garamond', serif;
-  font-size: 2rem;
+  font-size: 3rem;
 }
 
 .signb a{
   text-decoration: none;
   color: white;
+}
+.signb{
+  margin-right: 1rem;
 }
 .signa a{
   text-decoration: none;
@@ -344,19 +358,32 @@ a:hover{
 
 /* Item Component Start */
 
-.itemParentDiv{
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 5rem;
+.itemParentDiv {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: 1fr;
+  font-family: "EB Garamond", serif;
 }
 
+.sticky-item{
+  grid-column: 1/2;
+  grid-row: 1/-1;
+  margin-bottom: 4rem;
+  
+
+}
 .itemParentDiv img{
-  margin: 9rem 10rem 0 4rem;
-  width: 30rem;
+  position: sticky;
+  top: 9rem;
+  margin: 9rem 3rem 0 4rem;
+  height: 63vh;
 
 }
+
 .textonly{
   margin-top: 9rem;
+  grid-column: 2/3;
+  grid-row: 1/2;
 }
 .textonly > :first-child{
   font-size: 2.5rem;
@@ -385,28 +412,54 @@ a:hover{
   margin-top: 3rem;
 }
 .itembuttons button{
-  margin-right: 2rem;
-  width: 9rem;
+  margin-right: 0.5rem;
+  width: 15.2rem;
 }
 
-.browseotheritemscover > p{
-  font-size: 1.7rem;
+.customer-reviews h3,
+.write-review h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
   font-family: "EB Garabond", "serif";
-  margin-left: 4rem;
-}
-.browseotheritemscover{
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
+  color: gray;
 }
 
-.itemcomponentcard{
-  justify-content: center;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+
+.browseotheritemscover{
+  margin-bottom: 3rem;
+  display: grid;
+  grid-column: 2/3;
+  grid-row: 2/3;
+
 }
-.itemcomponentcard a{
-  color: black;
-  text-decoration: none;
+.write-review{
+  margin-top: 10rem;
+}
+.customer-reviews{
+  margin-top: 2rem;
+}
+.all-user-comment{
+  margin-right: 5rem;
+  overflow-y: scroll;
+}
+.allusercommentheight{
+  height: 30rem;
+}
+.heightMaxContent{
+  height: max-content;
+}
+.comment{
+  background-color:  #F2F2F2;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.comment > p{
+  margin-bottom: 0;
+}
+.comment p:nth-child(4){
+  padding: 1rem;
+  background-color:#FFF5D6;
 }
 
 
@@ -491,7 +544,10 @@ label {
 
 
 /* CART COMPONENT START */
-
+.no-item-in-cart{
+  text-align: center;
+  padding-top: 4rem;
+}
 .logged-in-cart{
   padding-top: 10rem;
   margin: auto 3rem 3rem 3rem;
@@ -524,53 +580,93 @@ label {
   color: seagreen;
   font-weight: bolder;
 }
-.cart-buttons-cover{
-  margin-left: 5rem;
+.cart-buttons-cover {
+  margin-left: auto;
+  margin-top: 3rem;
   display: flex;
   justify-content: flex-end;
 }
-.price-n-btn{
-  align-items:center;
-  justify-content: center;
 
+.price-n-btn{
+  display: flex;
+  justify-content: center;
+  align-items:baseline;
 }
-.cart-buttons{
-  margin-right: 5rem;
-  margin-top: 3rem;
+.price-n-btn p{
+  margin-right: 1rem;
+}
+.cart-buttons {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  margin-right: 5rem;
+  margin-top: 3rem;
 }
-.cart-buttons a{
+
+.cart-buttons a {
   margin-top: 1rem;
   color: blue;
   text-decoration: underline;
 }
-.cart-buttons>p{
+
+.cart-buttons > p {
   font-size: 2rem;
   font-weight: bolder;
 }
-.cart-buttons span{
+
+.cart-buttons span {
   color: seagreen;
 }
-.cart-quantity-cover select{
+
+.cart-quantity-cover select {
   font-size: 1rem;
-  color: none;
 }
+
 
 /* CART COMPONENT END */
 
 /* ACCOUNT INFORMATION */
 
-.account-info-cover p{
-  font-size: 10rem;
-}
 .account-info-cover{
   height: 50rem;
 }
+
+
 /* ACCOUNT INFORMATION END */
 
 
+/* CUSTOMER REVIEW */
 
+.customer-review-cover button{
+  width: 72vh;
+}
+.stars-cover{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+.stars-cover input {
+  display: none;
+}
+
+.stars-cover label {
+  font-size: 2rem;
+  margin-right: 0.5rem;
+  color: gray;
+  transition: 0.2s all ease-in-out;
+}
+
+.stars-cover input:not(:checked) ~ label:hover,
+.stars-cover input:not(:checked) ~ label:hover ~ label {
+  color: #fd4;
+  cursor: pointer;
+}
+
+.stars-cover input:checked ~ label {
+  color: #fd4;
+}
+
+/* CUSTOMER REVIEW END */
 
 
 /* footer */

@@ -24,7 +24,6 @@ function App() {
   const [cartAccess, setCartAccess] = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
 
-  // Function to update the cart item count
   const updateCartItemCount = (count) => {
     setCartItemCount(count);
   };
@@ -49,8 +48,8 @@ function App() {
               <HomeCard />
             </>
           } />
-
-          <Route path="/shop/*" element={<Shop />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/shop/:search" element={<Shop />} />
           <Route path="/items/:id" element={<Items authToken={authToken} setCartAccessed={setCartAccessed} cartAccess={cartAccess} />} />
           {isLogin ? (
             <Route path="/account/*" element={<AccountInfo />} />

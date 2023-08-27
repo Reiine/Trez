@@ -1,9 +1,10 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { fetchItemDetails } from './apiutils/apiUtils';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchItemDetails } from "./apiutils/apiUtils";
+import { toast } from "react-toastify";
 
-function Cart({ isLogin, authToken , updateCartItemCount}) {
+function Cart({ isLogin, authToken, updateCartItemCount }) {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
@@ -11,7 +12,7 @@ function Cart({ isLogin, authToken , updateCartItemCount}) {
       if (authToken) {
         try {
           const response = await axios.post(
-            'http://localhost:3001/fetch-cart-items',
+            "/fetch-cart-items",
             {},
             {
               headers: {
@@ -33,10 +34,9 @@ function Cart({ isLogin, authToken , updateCartItemCount}) {
             })
           );
 
-
           setCartItems(updatedCartItems);
         } catch (e) {
-          console.log('Error fetching cart items:', e);
+          console.log("Error fetching cart items:", e);
         }
       }
     }
@@ -55,7 +55,7 @@ function Cart({ isLogin, authToken , updateCartItemCount}) {
 
     try {
       await axios.post(
-        'http://localhost:3001/quantity-update',
+        "/quantity-update",
         {
           itemId: item.itemId,
           newQuantity: newQuantity,
@@ -73,82 +73,110 @@ function Cart({ isLogin, authToken , updateCartItemCount}) {
         }
         return cartItem;
       });
-      
+
       setCartItems(updatedCartItems);
     } catch (error) {
-      console.error('Error updating quantity:', error);
+      console.error("Error updating quantity:", error);
     }
   };
 
   const handleCartItemDelete = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:3001/cart-item-delete/${itemId}`, {
+      await axios.delete(`/cart-item-delete/${itemId}`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
       });
-      
-      const updatedCartItems = cartItems.filter((item) => item.itemId !== itemId);
+      toast.error("Item deleted");
+      const updatedCartItems = cartItems.filter(
+        (item) => item.itemId !== itemId
+      );
       setCartItems(updatedCartItems);
       updateCartItemCount(updatedCartItems.length);
     } catch (error) {
-      console.error('Error deleting cart item:', error);
+      toast.error("Error deleting cart item");
     }
   };
 
   return (
     <>
-      {!isLogin ? (
-        <div className='cartcover'>
-          <p>Please Register/Login to access the cart</p>
-          <div className='log-reg-btn'>
-            <button className='btn btn-dark'>
-              <Link to={`/account/signup`}>Register</Link>
-            </button>
-            <button className='btn btn-dark'>Login</button>
-          </div>
+      {cartItems.length === 0 ? (
+        <div className="cartcover">
+          {!isLogin ? (
+            <>
+              <p>Please Register/Login to access the cart</p>
+              <div className="log-reg-btn">
+                <button className="btn btn-dark">
+                  <Link to={`/account/signup`}>Register</Link>
+                </button>
+                <button className="btn btn-dark">
+                  <Link to={`/account/login`}>Login</Link>
+                </button>
+              </div>
+            </>
+          ) : (
+            <h1>No items in your cart</h1>
+          )}
         </div>
       ) : (
         <div className="logged-in-cart">
-          <p>Your Cart: </p>
-          {cartItems.map((item) => (
-            <div key={item._id} className="cart-item">
-              <img src={item.img} alt="item" height={200} />
-              <div className="item-name-des">
-                <h6>{item.name}</h6>
-                <p>{item.des}</p>
+          {isLogin ? (
+            <>
+              <p>Your Cart: </p>
+              {cartItems.map((item) => (
+                <div key={item._id} className="cart-item">
+                  <img src={item.img} alt="item" height={200} />
+                  <div className="item-name-des">
+                    <h6>{item.name}</h6>
+                    <p>{item.des}</p>
+                  </div>
+                  <div className="cart-quantity-cover">
+                    <select
+                      name="quantity"
+                      id="cart-quantity"
+                      value={item.quantity}
+                      onChange={(e) => handleQuantityChange(e, item)}
+                    >
+                      {[...Array(5).keys()].map((num) => (
+                        <option key={num + 1} value={num + 1}>
+                          {num + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="price-n-btn">
+                    <p>Rs. {item.price * item.quantity}</p>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleCartItemDelete(item.itemId)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ))}
+              <div className="cart-buttons">
+                <p>Total: <span> Rs. {calculateTotalPrice()}</span></p>
+                <button className="btn btn-success">Proceed to pay</button>
+                <Link to={'/shop'}>Continue shopping {'>'}</Link>
               </div>
-              <div className="cart-quantity-cover">
-                <select
-                  name="quantity"
-                  id="cart-quantity"
-                  value={item.quantity}
-                  onChange={(e) => handleQuantityChange(e, item)}
-                >
-                  {[...Array(5).keys()].map((num) => (
-                    <option key={num + 1} value={num + 1}>
-                      {num + 1}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="price-n-btn">
-                <p>Rs. {item.price * item.quantity}</p>
-                <button className="btn btn-danger" onClick={() => handleCartItemDelete(item.itemId)}>Remove</button>
+            </>
+          ) : (
+            <div className="cartcover">
+              <p>Please Register/Login to access the cart</p>
+              <div className="log-reg-btn">
+                <button className="btn btn-dark">
+                  <Link to={`/account/signup`}>Register</Link>
+                </button>
+                <button className="btn btn-dark">Login</button>
               </div>
             </div>
-          ))}
-          <div className='cart-buttons-cover'>
-            <div className="cart-buttons">
-              <p>Total: <span> Rs. {calculateTotalPrice()}</span></p>
-              <button className='btn btn-success'>Proceed to pay</button>
-              <Link to={'/shop'}>Continue shopping {'>'}</Link>
-            </div>
-          </div>
+          )}
         </div>
       )}
     </>
   );
+  
 }
 
 export default Cart;

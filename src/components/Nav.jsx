@@ -5,28 +5,25 @@ import shoppingCart from '../components/images/sc.png';
 import searchimg from './images/search.png';
 import accimg from './images/acc.png';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 function Nav({ authToken, cartAccess, cartItemCount,setCartItemCount }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [cartValue, setCartValue] = useState(0);
   const [search, setSearch] = useState('');
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (authToken) {
       async function fetchCartItems() {
-        console.log(authToken, cartAccess)
         try {
-          const response = await axios.post('http://localhost:3001/number-of-items', {}, {
+          const response = await axios.post('/number-of-items', {}, {
             headers: {
               Authorization: `Bearer ${authToken}`,
             }
           });
           const cartItemCount = response.data.value;
-          console.log('Cart Item Count:', cartItemCount);
           setCartItemCount(cartItemCount);
 
           const cartValue = response.data.value;
-          console.log('Cart Value:', cartValue);
           setCartValue(cartValue);
         } catch (error) {
           console.error('Error fetching cart items:', error);
@@ -58,8 +55,11 @@ function Nav({ authToken, cartAccess, cartItemCount,setCartItemCount }) {
   }, []);
 
   const handleKey = (val) => {
-    val.key === "Enter" && (window.location.href = `/shop/${search}`);
-  }
+    if (val.key === 'Enter') {
+      navigate(`/shop/${search}`);
+    }
+  };
+  
 
   const navClass = isScrolled ? 'nav changeNavBg' : 'nav';
 

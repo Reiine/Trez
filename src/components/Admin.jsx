@@ -12,7 +12,7 @@ function Admin() {
 
     async function submit(){
         try{
-            await axios.post('http://localhost:3001/admin',{
+            await axios.post('/admin',{
                 img,name,brand,price,des,hash,tag
             })
         }catch(e){
