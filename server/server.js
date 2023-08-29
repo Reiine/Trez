@@ -15,7 +15,7 @@ app.use(
     credentials: true,
   })
 );
-const stripe = require("stripe")(process.env.SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
