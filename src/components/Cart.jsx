@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchItemDetails } from "./apiutils/apiUtils";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-function Cart({ isLogin, authToken, updateCartItemCount }) {
+function Cart({ isLogin, authToken, updateCartItemCount, goToBilling,getUser }) {
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     async function fetchCartItemsAndDetails() {
@@ -19,10 +22,10 @@ function Cart({ isLogin, authToken, updateCartItemCount }) {
                 Authorization: `Bearer ${authToken}`,
               },
             }
-          );
-
+          )
+            getUser(response.data.user);
           const updatedCartItems = await Promise.all(
-            response.data[0].cartItems.map(async (item) => {
+            response.data.userMatch[0].cartItems.map(async (item) => {
               const itemDetails = await fetchItemDetails(item.itemId);
               return {
                 ...item,
@@ -35,6 +38,8 @@ function Cart({ isLogin, authToken, updateCartItemCount }) {
           );
 
           setCartItems(updatedCartItems);
+          const calculatedTotalPrice = calculateTotalPrice(updatedCartItems);
+          setTotalPrice(calculatedTotalPrice);
         } catch (e) {
           console.log("Error fetching cart items:", e);
         }
@@ -156,9 +161,19 @@ function Cart({ isLogin, authToken, updateCartItemCount }) {
                 </div>
               ))}
               <div className="cart-buttons">
-                <p>Total: <span> Rs. {calculateTotalPrice()}</span></p>
-                <button className="btn btn-success">Proceed to pay</button>
-                <Link to={'/shop'}>Continue shopping {'>'}</Link>
+                <p>
+                  Total: <span> Rs. {calculateTotalPrice()}</span>
+                </p>
+                <button
+                  className="btn btn-success"
+                  onClick={() => {
+                    goToBilling(()=>calculateTotalPrice());
+                    navigate("/billing");
+                  }}
+                >
+                  Proceed to pay
+                </button>
+                <Link to={"/shop"}>Continue shopping {">"}</Link>
               </div>
             </>
           ) : (
@@ -176,7 +191,6 @@ function Cart({ isLogin, authToken, updateCartItemCount }) {
       )}
     </>
   );
-  
 }
 
 export default Cart;

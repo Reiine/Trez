@@ -6,12 +6,16 @@ const jwt = require("jsonwebtoken");
 const register = require("./models/register");
 const products = require("./models/products");
 const cartItems = require("./models/cartitems");
+const crypto = require('crypto');
 const userComment = require("./models/comments");
 const app = express();
-app.use(cors({
-  origin: "http://localhost:3000",
-}));
-
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://checkout.stripe.com"],
+    credentials: true,
+  })
+);
+const stripe = require("stripe")(process.env.SECRET_KEY);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -92,7 +96,6 @@ app.post("/addToCart", verifyUser, async (req, res) => {
   try {
     const user = req.user;
     const cart = await cartItems.findOne({ userId: user._id });
-    console.log(cart);
 
     if (cart) {
       const existingCartItem = cart.cartItems.find(
@@ -116,7 +119,6 @@ app.post("/addToCart", verifyUser, async (req, res) => {
       });
       await newCart.save();
     }
-
     res.json({ message: "Added to cart successfully" });
   } catch (e) {
     console.log("Error sending to database");
@@ -148,7 +150,7 @@ app.post("/fetch-cart-items", verifyUser, async (req, res) => {
     } else {
       const user = req.user;
       const userMatch = await cartItems.find({ userId: user._id });
-      res.json(userMatch);
+      res.json({userMatch,user});
     }
   } catch (e) {
     console.log("Error loading cart items");
@@ -214,13 +216,13 @@ app.delete("/cart-item-delete/:itemId", verifyUser, async (req, res) => {
 
 app.post("/add-comment", verifyUser, async (req, res) => {
   const userId = req.user._id;
-  const { itemId, comment,rating } = req.body;
+  const { itemId, comment, rating } = req.body;
   const user = await register.findOne({ _id: userId });
   try {
     if (user) {
       userName = user.name;
       const newComment = new userComment({
-        rating:rating,
+        rating: rating,
         user: userName,
         productId: itemId,
         comment: comment,
@@ -233,20 +235,19 @@ app.post("/add-comment", verifyUser, async (req, res) => {
   }
 });
 
-app.post('/fetchComments', async (req, res) => {
-  const {itemId} = req.body;
+app.post("/fetchComments", async (req, res) => {
+  const { itemId } = req.body;
   try {
     const comment = await userComment.find({ productId: itemId });
     if (comment) {
       res.json(comment);
     } else {
-      res.json("Comments not found" );
+      res.json("Comments not found");
     }
   } catch (error) {
     res.status(500).json({ error: "Error fetching comments" });
   }
 });
-
 
 function verifyUser(req, res, next) {
   const bearerHeader = req.headers["authorization"];
@@ -267,6 +268,71 @@ function verifyUser(req, res, next) {
   } else {
     res.status(401).json({ error: "Authorization header missing" });
   }
+}
+
+app.post("/create-price", verifyUser, async (req, res) => {
+  const { billing } = req.body;
+  try {
+    const price = await stripe.prices.create({
+      unit_amount: billing * 100,
+      currency: "inr",
+      product_data: {
+        name: "Trez",
+      },
+    });
+
+    res.json({ priceId: price.id });
+  } catch (error) {
+    res.status(500).json({ message: "Error creating Price", error });
+  }
+});
+
+app.post("/payment", verifyUser, async (req, res) => {
+  const { priceId, currency } = req.body;
+
+  try {
+    const orderId = generateRandomOrderId(10); 
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+          currency,
+        },
+      ],
+      mode: "payment",
+      success_url: `http://localhost:3000/account/your-orders/success/${orderId}`,
+      cancel_url: `http://localhost:3000/account/your-orders/failed/${orderId}`,
+    });
+    res.json({ sessionUrl: session.url });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({ message: "Error creating checkout session", error });
+  }
+});
+
+app.post('/set-address', verifyUser, async (req, res) => {
+  const { address } = req.body;
+  const userId = req.user._id;
+
+  try {
+    await register.findOneAndUpdate(
+      { _id: userId },
+      { $set: { address: address } }
+    );
+    
+    res.json("Address set successfully");
+  } catch (error) {
+    console.log("Error setting address:", error);
+    res.status(500).json("Error setting address");
+  }
+});
+
+
+
+function generateRandomOrderId(length) {
+  const buffer = crypto.randomBytes(Math.ceil(length / 2));
+  return buffer.toString("hex").slice(0, length);
 }
 
 app.listen(3001);

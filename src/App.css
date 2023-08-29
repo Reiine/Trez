@@ -668,6 +668,72 @@ label {
 
 /* CUSTOMER REVIEW END */
 
+/* BILLING PAGE */
+
+.billing-page-cover{
+  height: 50rem;
+  font-family: "Eb Gamond";
+}
+.billing-page-cover>h1{
+  margin-left: 8rem;
+  padding-top: 10rem;
+  font-weight: bold;
+}
+.billing-info{
+  margin-left: 8rem;
+  margin-top: 4rem;
+}
+.billing-info h4{
+  font-size: 1.2rem;
+}
+.billing-info p{
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+/* BILLING PAGE END */
+
+/* DIRECT BUY */
+
+.direct-buy-cover{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Eb Gamond";
+  height: 45rem;
+}
+.direct-buy-info{
+  padding: 5rem;
+  padding-top: 2rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.direct-buy-cover h3{
+  margin-bottom: 2rem;
+}
+.direct-buy-cover button{
+  width: 100%;
+}
+.address-btn{
+  margin-bottom: 2rem;
+}
+
+
+/* DIRECT BUY END */
+/* USER ORDER */
+
+.user-order-cover{
+  height: 45rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.user-order-cover h1{
+}
+
+/* USER ORDER COVER */
+
+
 
 /* footer */
 .end{

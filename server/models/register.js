@@ -24,6 +24,9 @@ const regUser = new mongoose.Schema({
     pass:{
         type:String,
         required:true
+    },
+    address:{
+        type:String,
     }
 })
 

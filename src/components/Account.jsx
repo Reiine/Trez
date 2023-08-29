@@ -98,7 +98,7 @@ function LogIn({ handleAuthToken }) {
   async function submit() {
     try {
       await axios
-        .post("http://localhost:3001/login", {
+        .post("/login", {
           email,
           pass,
         })

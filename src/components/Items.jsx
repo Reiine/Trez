@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { CardComponent } from "./HomeCard";
 import axios from "axios";
@@ -13,6 +13,7 @@ function Items({ authToken, setCartAccessed, cartAccessed }) {
   const [quantity, setQuantity] = useState(1);
   const [itemId, setItemId] = useState("");
   const [commentDetails, setCommentDetails] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -21,7 +22,7 @@ function Items({ authToken, setCartAccessed, cartAccessed }) {
         const data = response.data;
         const item = data.find((item) => item._id === id);
         if (item) {
-          setItemId(item._id); // Update itemId here
+          setItemId(item._id); 
           setItemFilter(item);
           const temp = data.filter((dataItem) => dataItem.name !== id);
           const newtemp = temp.length > 8 ? temp.splice(0, 8) : temp;
@@ -80,6 +81,10 @@ function Items({ authToken, setCartAccessed, cartAccessed }) {
     }
   }, [itemId]);
 
+  const handleRedirect = () =>{
+    navigate(`/billing/${itemFilter._id}/${quantity}`);
+  }
+
   return (
     <div className="itemscover">
       {itemFilter && (
@@ -108,7 +113,7 @@ function Items({ authToken, setCartAccessed, cartAccessed }) {
             </div>
 
             <div className="itembuttons">
-              <Button variant="success" size="lg">
+              <Button variant="success" size="lg" onClick={handleRedirect}>
                 Buy Now
               </Button>
               <Button variant="warning" size="lg" onClick={handleCart}>
