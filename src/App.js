@@ -14,25 +14,28 @@ import Admin from "./components/Admin";
 import AccountInfo from "./components/AccountInfo";
 import BillingPage from "./components/BillingPage";
 import DirectBuy from "./components/DirectBuy";
-import UserOrders from "./components/UserOrders";
+import Error from "./components/Error";
+import YourOrders from "./components/YourOrders";
+import YourComments from "./components/YourComments";
+import EditInfo from "./components/EditInfo";
+import Cookies from 'js-cookie';
 
 function App() {
   const [authToken, setAuthToken] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const [cartAccess, setCartAccess] = useState(false);
-  const [user,setUser] = useState({});
+  const [user, setUser] = useState({});
   const [cartItemCount, setCartItemCount] = useState(0);
   const [billing, setBilling] = useState(0);
 
-  const getUser = (e) =>{
+  const getUser = (e) => {
     setUser(e);
-  }
+  };
 
   const goToBilling = (e) => {
     setBilling(e);
   };
-  useEffect(() => {
-  }, [billing]);
+  useEffect(() => {}, [billing]);
 
   const updateCartItemCount = (count) => {
     setCartItemCount(count);
@@ -42,9 +45,22 @@ function App() {
   };
 
   const handleAuthToken = (val, val2) => {
+    const userData = { authToken: val, isLogin: val2 };
+    Cookies.set("userData", JSON.stringify(userData));
     setAuthToken(val);
     setIsLogin(val2);
   };
+  
+  useEffect(() => {
+    const storedUserData = Cookies.get("userData");
+    if (storedUserData) {
+      const { authToken: storedAuthToken, isLogin: storedIsLogin } = JSON.parse(storedUserData);
+      setAuthToken(storedAuthToken);
+      setIsLogin(storedIsLogin);
+    }
+  }, []);
+  
+  
 
   return (
     <Router>
@@ -78,10 +94,20 @@ function App() {
             }
           />
           {isLogin ? (
-            <Route path="/account/*" element={<AccountInfo />} />
+            <>
+              <Route path="/account" element={<AccountInfo authToken={authToken}/>}>
+                <Route path="signup" element={<YourOrders authToken={authToken} />}/>
+                <Route path="login" element={<YourOrders authToken={authToken} />}/>
+                <Route path="your-orders/:boolean/:orderId/:id/:quantity" element={<YourOrders authToken={authToken} />}/>
+              </Route>
+              <Route
+                path="/billing/:id/:quantity"
+                element={<DirectBuy authToken={authToken} />}
+              />
+            </>
           ) : (
             <>
-              <Route path="/account/signup" element={<Signup />} />
+              <Route path="/account/" element={<Signup />} />
               <Route
                 path="/account/login"
                 element={<Login handleAuthToken={handleAuthToken} />}
@@ -103,12 +129,15 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route
             path="/billing"
-            element={<BillingPage billing={billing} authToken={authToken} user={user}/>}
+            element={
+              <BillingPage
+                billing={billing}
+                authToken={authToken}
+                user={user}
+              />
+            }
           />
-          <Route path="/billing/:id/:quantity" element={<DirectBuy authToken={authToken}/>} />
-          <Route path="/account/your-orders" element={<UserOrders/>} />
-          <Route path="/account/your-orders/:boolean/:orderId" element={<UserOrders/>} />
-
+          <Route path="*" element={<Error />} />
         </Routes>
       </div>
       <Footer className="footer" />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,24 @@ function SignUp() {
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  // Helper function to validate the password
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()-=_+]).{8,50}$/;
+    return regex.test(password);
+  };
+
   async function submit() {
+    if (!validatePassword(pass)) {
+      setPasswordError(
+        "Password must contain a capital letter, a special symbol (!@#$%^&*()-=_+), and be between 8 and 50 characters."
+      );
+      return;
+    } else {
+      setPasswordError("");
+    }
+
     try {
       await axios.post("/register", {
         name,
@@ -25,19 +42,20 @@ function SignUp() {
       toast.error("Failed To Register");
     }
   }
+
   return (
-      <div className="accountcover">
-        <div className="signincover">
-          <p className="form">Register</p>
-          <div className="form">
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              placeholder="John Doe"
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="gender">
+    <div className="accountcover">
+      <div className="signincover">
+        <p className="form">Register</p>
+        <div className="form">
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            placeholder="John Doe"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="gender">
             <label htmlFor="gender">Gender:</label>
             <input
               type="radio"
@@ -61,11 +79,11 @@ function SignUp() {
               type="radio"
               name="gender"
               id="trans"
-              value="transgender"
-              checked={gender === "transgender"}
+              value="others"
+              checked={gender === "others"}
               onChange={(e) => setGender(e.target.value)}
             />
-            <label htmlFor="trans">Transgender</label>
+            <label htmlFor="trans">Others</label>
           </div>
           <div className="form">
             <label htmlFor="email">Email:</label>
@@ -76,17 +94,29 @@ function SignUp() {
             />
           </div>
           <div className="form">
-            <label htmlFor="password">Password:</label>
-            <input type="password" onChange={(e) => setPass(e.target.value)} />
-          </div>
-          <Link to={`/account/login`} className="form">
-            Already have an account?
-          </Link>
-          <Button variant="dark" className="form" onClick={submit}>
-            Sign Up
-          </Button>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            placeholder="example@xyz.com"
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
+        <div className="form">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            onChange={(e) => setPass(e.target.value)}
+          />
+          {passwordError && <p className="error-message">{passwordError}</p>}
+        </div>
+        <Link to={`/account/login`} className="form">
+          Already have an account?
+        </Link>
+        <Button variant="dark" className="form" onClick={submit}>
+          Sign Up
+        </Button>
       </div>
+    </div>
   );
 }
 
@@ -105,6 +135,7 @@ function LogIn({ handleAuthToken }) {
         .then((res) => {
           if (res.data.message === "logsuccess") {
             handleAuthToken(res.data.token, true);
+            console.log(res.data.token);
             toast.success("Login Successfull");
             setIsLogin(true);
             navigate("/");
@@ -134,7 +165,7 @@ function LogIn({ handleAuthToken }) {
             <label htmlFor="password">Password:</label>
             <input type="password" onChange={(e) => setPass(e.target.value)} />
           </div>
-          <Link to={`/account/signup`} className="form">
+          <Link to={`/account/`} className="form">
             Don't have an account?
           </Link>
           <Button variant="dark" className="form br-0" onClick={submit}>

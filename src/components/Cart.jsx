@@ -112,7 +112,7 @@ function Cart({ isLogin, authToken, updateCartItemCount, goToBilling,getUser }) 
               <p>Please Register/Login to access the cart</p>
               <div className="log-reg-btn">
                 <button className="btn btn-dark">
-                  <Link to={`/account/signup`}>Register</Link>
+                  <Link to={`/account/`}>Register</Link>
                 </button>
                 <button className="btn btn-dark">
                   <Link to={`/account/login`}>Login</Link>

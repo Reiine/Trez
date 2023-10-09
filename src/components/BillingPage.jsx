@@ -103,12 +103,7 @@ function BillingPage({ billing, authToken, user }) {
                 placeholder="Enter Your Address"
                 onChange={(e) => setAddress(e.target.value)}
               />
-              <input
-                type="button"
-                value={"Save"}
-                className="btn btn-outline-dark px-1 my-1"
-                onClick={handleAddress}
-              />
+              <button className="btn btn-outline-dark px-1 my-1" onClick={handleAddress}>Save</button>
             </>
           )}
           <button onClick={createPrice} className="btn btn-success">

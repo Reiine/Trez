@@ -87,7 +87,7 @@ function Nav({ authToken, cartAccess, cartItemCount,setCartItemCount }) {
               </Link>
             </li>
             <li>
-              <Link to={'/account/signup'} className='navitems'>
+              <Link to={'/account'} className='navitems'>
                 <img src={accimg} alt="accounnt" height="35rem" width="40rem" />
               </Link>
             </li>

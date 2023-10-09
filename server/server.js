@@ -6,8 +6,9 @@ const jwt = require("jsonwebtoken");
 const register = require("./models/register");
 const products = require("./models/products");
 const cartItems = require("./models/cartitems");
-const crypto = require('crypto');
+const crypto = require("crypto");
 const userComment = require("./models/comments");
+const yourOrderedItem = require("./models/your-orders");
 const app = express();
 app.use(
   cors({
@@ -146,11 +147,11 @@ app.post("/number-of-items", verifyUser, async (req, res) => {
 app.post("/fetch-cart-items", verifyUser, async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).json({ message: "unauthorise" });
+      return res.status(401).json({ message: "unauthorised" });
     } else {
       const user = req.user;
       const userMatch = await cartItems.find({ userId: user._id });
-      res.json({userMatch,user});
+      res.json({ userMatch, user });
     }
   } catch (e) {
     console.log("Error loading cart items");
@@ -222,6 +223,7 @@ app.post("/add-comment", verifyUser, async (req, res) => {
     if (user) {
       userName = user.name;
       const newComment = new userComment({
+        userId,
         rating: rating,
         user: userName,
         productId: itemId,
@@ -249,6 +251,207 @@ app.post("/fetchComments", async (req, res) => {
   }
 });
 
+app.post("/create-price", verifyUser, async (req, res) => {
+  const { billing } = req.body;
+  try {
+    const price = await stripe.prices.create({
+      unit_amount: billing * 100,
+      currency: "inr",
+      product_data: {
+        name: "Trez",
+      },
+    });
+
+    res.json({ priceId: price.id });
+  } catch (error) {
+    res.status(500).json({ message: "Error creating Price", error });
+  }
+});
+
+app.post("/payment", verifyUser, async (req, res) => {
+  const { priceId, currency, id, quantity } = req.body;
+  console.log(id, quantity);
+  try {
+    const orderId = generateRandomOrderId(10);
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+          currency,
+        },
+      ],
+      mode: "payment",
+      success_url: `http://localhost:3000/account/your-orders/success/${orderId}/${id}/${quantity}`,
+      cancel_url: `http://localhost:3000/account/your-orders/failed/${orderId}`,
+    });
+    res.json({ sessionUrl: session.url });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({ message: "Error creating checkout session", error });
+  }
+});
+
+app.post("/set-address", verifyUser, async (req, res) => {
+  const { address } = req.body;
+  const userId = req.user._id;
+
+  try {
+    await register.findOneAndUpdate(
+      { _id: userId },
+      { $set: { address: address } }
+    );
+
+    res.json("Address set successfully");
+  } catch (error) {
+    console.log("Error setting address:", error);
+    res.status(500).json("Error setting address");
+  }
+});
+
+app.post("/get-user-info", verifyUser, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await register.findOne({ _id: userId });
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.log("Error fetching user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/set-ordered-item", verifyUser, async (req, res) => {
+  const userId = req.user._id;
+  const { id, orderId, quantity } = req.body;
+  const productId = id;
+  const regOrders = new yourOrderedItem({
+    userId,
+    productId,
+    orderId,
+    quantity,
+  });
+  try {
+    const saveOrder = await regOrders.save();
+    res.status(200).json("Successfully saved order");
+  } catch (error) {
+    console.log("Error saving order");
+  }
+});
+
+app.post("/get-ordered-items", verifyUser, async (req, res) => {
+  const { quantity } = req.body;
+  const userId = req.user._id;
+
+  try {
+    const userOrders = await yourOrderedItem.find({ userId: userId });
+
+    if (userOrders.length > 0) {
+      const orderedProducts = await Promise.all(userOrders.map(async (order) => {
+        const product = await products.findOne({ _id: order.productId });
+        return {
+          ...product.toObject(),
+          quantity: order.quantity,
+          orderStatus: order.orderStatus // Include orderStatus in the response
+        };
+      }));
+      
+      res.status(200).json(orderedProducts);
+    } else {
+      res.status(404).json({ error: "No orders found for the user" });
+    }
+  } catch (error) {
+    console.error("Error finding order:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post('/fetch-comments', verifyUser, async (req, res) => {
+  const userId = req.user._id;
+  try {
+    const comments = await userComment.find({ userId: userId });
+
+    if (comments.length > 0) {
+      const commentDetails = [];
+
+      for (const comment of comments) {
+        const productDetail = await products.findOne({ _id: comment.productId });
+        if (productDetail) {
+          commentDetails.push({
+            comment: comment,
+            productDetail: productDetail
+          });
+        }
+      }
+
+      if (commentDetails.length > 0) {
+        res.json(commentDetails);
+      } else {
+        res.json({ error: "No product details found for the comments" });
+      }
+    } else {
+      res.json({ error: "nocomment", message: "No comments found"});
+    }
+  } catch (error) {
+    console.log("Error Occurred:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+app.post("/update-password",verifyUser, async (req, res) => {
+  const userId= req.user._id;
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    const user = await register.findOne({ _id: userId });
+    console.log(user);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.pass);
+    console.log(user.pass);
+    console.log(currentPassword);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Incorrect current password" });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    user.pass = hashedNewPassword;
+    await user.save();
+
+    res.json("Password updated successfully" );
+  } catch (error) {
+    console.error("Error updating password:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post('/fetch-user', verifyUser, async (req, res) => {
+  const userId = req.user._id;
+  try {
+    const user = await register.find({ _id: userId });
+    if (user.length > 0) {
+      res.json(user);
+    } else {
+      res.json("User Not Found");
+    }
+  } catch (error) {
+    console.log("Error occurred");
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+function generateRandomOrderId(length) {
+  const buffer = crypto.randomBytes(Math.ceil(length / 2));
+  return buffer.toString("hex").slice(0, length);
+}
 function verifyUser(req, res, next) {
   const bearerHeader = req.headers["authorization"];
 
@@ -268,71 +471,6 @@ function verifyUser(req, res, next) {
   } else {
     res.status(401).json({ error: "Authorization header missing" });
   }
-}
-
-app.post("/create-price", verifyUser, async (req, res) => {
-  const { billing } = req.body;
-  try {
-    const price = await stripe.prices.create({
-      unit_amount: billing * 100,
-      currency: "inr",
-      product_data: {
-        name: "Trez",
-      },
-    });
-
-    res.json({ priceId: price.id });
-  } catch (error) {
-    res.status(500).json({ message: "Error creating Price", error });
-  }
-});
-
-app.post("/payment", verifyUser, async (req, res) => {
-  const { priceId, currency } = req.body;
-
-  try {
-    const orderId = generateRandomOrderId(10); 
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-          currency,
-        },
-      ],
-      mode: "payment",
-      success_url: `http://localhost:3000/account/your-orders/success/${orderId}`,
-      cancel_url: `http://localhost:3000/account/your-orders/failed/${orderId}`,
-    });
-    res.json({ sessionUrl: session.url });
-  } catch (error) {
-    console.log("error", error);
-    res.status(500).json({ message: "Error creating checkout session", error });
-  }
-});
-
-app.post('/set-address', verifyUser, async (req, res) => {
-  const { address } = req.body;
-  const userId = req.user._id;
-
-  try {
-    await register.findOneAndUpdate(
-      { _id: userId },
-      { $set: { address: address } }
-    );
-    
-    res.json("Address set successfully");
-  } catch (error) {
-    console.log("Error setting address:", error);
-    res.status(500).json("Error setting address");
-  }
-});
-
-
-
-function generateRandomOrderId(length) {
-  const buffer = crypto.randomBytes(Math.ceil(length / 2));
-  return buffer.toString("hex").slice(0, length);
 }
 
 app.listen(3001);

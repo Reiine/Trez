@@ -5,9 +5,11 @@ import { toast } from "react-toastify";
 
 function DirectBuy({ authToken }) {
   const [price, setPrice] = useState(0);
-  const { id, quantity } = useParams(); 
+  const { id, quantity } = useParams();
   const [priceId, setPriceId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState({});
+  const [address,setAddress] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,8 +20,26 @@ function DirectBuy({ authToken }) {
         console.log("Can't fetch data");
       }
     };
+    const fetchUser = async () => {
+      try {
+        const response = await axios.post(
+          "/get-user-info",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        setUser(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log("Error fetching user");
+      }
+    };
 
     fetchData();
+    fetchUser();
   }, [id]);
 
   useEffect(() => {
@@ -54,6 +74,7 @@ function DirectBuy({ authToken }) {
   };
 
   const onToken = async () => {
+    console.log(id,quantity);
     try {
       setLoading(true);
       const response = await axios.post(
@@ -61,6 +82,8 @@ function DirectBuy({ authToken }) {
         {
           billing: price * parseInt(quantity, 10),
           priceId,
+          id,
+          quantity
         },
         {
           headers: {
@@ -77,20 +100,41 @@ function DirectBuy({ authToken }) {
       setLoading(false);
     }
   };
+  const updateAddress = async () => {
+    try {
+      const response = await axios.post(
+        "/set-address",
+        {
+          address,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      toast.success(response.data);
+      setAddress("");
+    } catch (error) {
+      toast.error("Error updating address");
+    }
+  };
 
   return (
     <div className="direct-buy-cover">
       <div className="direct-buy-info">
         <h3>Review Your Order</h3>
         <h6 className="fw-bold">To</h6>
-        <p>Reiine Iangar</p>
+        <p>{user.name}</p>
         <h6 className="fw-bold">Email</h6>
-        <p>example@demo.com</p>
-        <h6 className="fw-bold">Contact</h6>
-        <p>+234 803 123 4567</p>
+        <p>{user.email}</p>
         <h6 className="fw-bold">Delivery Address</h6>
+        <input type="text" placeholder="123 Main street..." onChange={(e)=>{setAddress(e.target.value)}}/>
+        <button className="address-btn" onClick={updateAddress} >Save</button>
         <button className="btn btn-success" onClick={createPrice}>
-          {loading ? "Loading" : `Proceed To Pay ${price * parseInt(quantity, 10)}`}
+          {loading
+            ? "Loading"
+            : `Proceed To Pay ${price * parseInt(quantity, 10)}`}
         </button>
       </div>
     </div>

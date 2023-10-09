@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams,useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { CardComponent } from "./HomeCard";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CustomerReviews from "./CustomerReviews";
-function Items({ authToken, setCartAccessed, cartAccessed }) {
+function Items({ authToken, setCartAccessed }) {
   const [filterNew, setFilterNew] = useState([]);
   const { id } = useParams();
   const [itemFilter, setItemFilter] = useState(null);

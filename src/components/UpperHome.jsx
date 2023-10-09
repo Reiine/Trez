@@ -15,7 +15,7 @@ function UpperHome() {
                         Upto 70% Off!
                     </p>
                     <button className=" btn rounded-pill btn-dark signb px-5" href='signin'>
-                        <Link to="account/signup">Sign Up</Link>
+                        <Link to="account/">Sign Up</Link>
                     </button>
                     <button className="btn rounded-pill btn-outline-dark signa px-5 ">
                         <Link to="account/login">Login</Link>

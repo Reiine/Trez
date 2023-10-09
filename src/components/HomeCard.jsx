@@ -7,8 +7,8 @@ function CardComponent({ element }) {
     return (
         <Link to={`/items/${element._id}`}>
             <div className="pcard">
-                <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src={element.img} height={200} width={200} />
+                <Card style={{ width: '18rem',height:'25rem' }}>
+                    <Card.Img variant="top" src={element.img} height={220} width={100}  />
                     <Card.Body>
                         <Card.Title>{element.name}</Card.Title>
                         <p>{element.brand}</p>
